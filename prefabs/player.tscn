@@ -1,0 +1,104 @@
+[gd_scene load_steps=14 format=3 uid="uid://fe7mtfu0pw6w"]
+
+[ext_resource type="Script" path="res://prefabs/player.gd" id="1_2jn7r"]
+[ext_resource type="Script" path="res://scripts/controller/GroundedMoveAction.gd" id="2_ugaux"]
+[ext_resource type="Script" path="res://scripts/controller/GroundedJumpAction.gd" id="3_84uqr"]
+[ext_resource type="Script" path="res://scripts/controller/DashAction.gd" id="4_trhld"]
+[ext_resource type="Script" path="res://scripts/controller/RotateToHeadingAction.gd" id="5_7u6kq"]
+[ext_resource type="Script" path="res://scripts/controller/CharacterBody3DDefaultPhysics.gd" id="6_baul4"]
+[ext_resource type="Texture2D" uid="uid://bdaj7y331d57y" path="res://assets/portraits/flawless_victory.jpg" id="7_0enuf"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nnjrh"]
+properties/0/path = NodePath(".:user_name")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:color")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:transform")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:portrait_index")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_eiqum"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wyg1r"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ho5oi"]
+resource_local_to_scene = true
+
+[sub_resource type="Curve" id="Curve_gos7a"]
+max_value = 5.0
+_data = [Vector2(0, 5), 0.0, 0.0, 0, 0, Vector2(1, 2.47755), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_p6k8i"]
+min_value = 10.0
+max_value = 30.0
+_data = [Vector2(0, 30), 0.0, 0.0, 0, 0, Vector2(1, 14.6154), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+script = ExtResource("1_2jn7r")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_nnjrh")
+visibility_update_mode = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_eiqum")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_wyg1r")
+surface_material_override/0 = SubResource("StandardMaterial3D_ho5oi")
+
+[node name="GroundedMoveAction" type="Node" parent="."]
+script = ExtResource("2_ugaux")
+ground_velocity_max = 10.0
+
+[node name="GroundedJumpAction" type="Node" parent="."]
+script = ExtResource("3_84uqr")
+initial_velocity = 5.0
+hold_acceleration_curve = SubResource("Curve_gos7a")
+
+[node name="DashAction" type="Node" parent="."]
+script = ExtResource("4_trhld")
+velocity_profile = SubResource("Curve_p6k8i")
+
+[node name="RotateToHeadingAction" type="Node" parent="."]
+script = ExtResource("5_7u6kq")
+
+[node name="CharacterBody3DDefaultPhysics" type="Node" parent="."]
+script = ExtResource("6_baul4")
+
+[node name="CameraAnchor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Nameplate" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+billboard = 1
+text = "Anonymous"
+vertical_alignment = 2
+
+[node name="Bark" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0)
+visible = false
+pixel_size = 0.002
+billboard = 1
+fixed_size = true
+render_priority = 5
+outline_render_priority = 4
+modulate = Color(1, 1, 0, 1)
+text = "Testing one two"
+vertical_alignment = 2
+
+[node name="Portrait" type="Sprite3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, -0.5)
+visible = false
+pixel_size = 0.004
+texture = ExtResource("7_0enuf")

@@ -1,0 +1,35 @@
+{
+  "sdks": [
+    { "target": "godot", "output": "addons/rivet_sdk" }
+  ],
+	"modules": {
+		"users": {},
+		"rate_limit": {},
+		"tokens": {},
+		"lobbies": {
+			"config": {
+				"lobbies": {
+					"regions": ["atl", "fra", "lax"],
+					"backend": {
+						"server": {
+							"environment": {
+								"SERVER_HOSTNAME": "0.0.0.0"
+							},
+							"ports": {
+								"game": {
+									"protocol": "udp",
+									"internalPort": 7777
+								}
+							},
+							"resources": {
+								"cpu": 500,
+								"memory": 500
+							}
+						}
+					}
+				}
+			}
+		},
+		"rivet": {}
+	}
+}

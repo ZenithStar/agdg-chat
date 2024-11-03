@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://venauiq2kjx0"]
+
+[sub_resource type="GDScript" id="GDScript_enx1v"]
+script/source = "extends Node3D
+
+func _enter_tree():
+	set_multiplayer_authority(name.to_int())
+"
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jwfuh"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_ryci4"]
+
+[node name="TestPlayer" type="Node3D"]
+script = SubResource("GDScript_enx1v")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_jwfuh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_ryci4")

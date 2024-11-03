@@ -1,0 +1,46 @@
+[gd_scene load_steps=10 format=3 uid="uid://cbiix6himkki"]
+
+[ext_resource type="Script" path="res://scripts/controller/ControlGroup.gd" id="1_v402i"]
+[ext_resource type="Script" path="res://scripts/controller/OrbitCamera.gd" id="2_a7sy8"]
+[ext_resource type="Script" path="res://scripts/controller/CameraSetpoint.gd" id="3_ppqc5"]
+[ext_resource type="Script" path="res://scripts/controller/CameraParameters.gd" id="4_iarhb"]
+[ext_resource type="Script" path="res://scripts/controller/OrbitCameraRetargetUpdate.gd" id="5_85wqi"]
+[ext_resource type="Script" path="res://scripts/controller/ZoomCamera.gd" id="6_f4sw2"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4uvbu"]
+radius = 0.1
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_a0xk8"]
+
+[sub_resource type="Resource" id="Resource_c3s8r"]
+script = ExtResource("4_iarhb")
+cull_mask = 1048575
+attributes = SubResource("CameraAttributesPractical_a0xk8")
+h_offset = 0.0
+v_offset = 0.0
+fov = 75.0
+near = 0.05
+far = 4000.0
+
+[node name="OTSMovement" type="Node"]
+script = ExtResource("1_v402i")
+priority = 10
+
+[node name="OrbitCamera" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0.5, 0, 0)
+shape = SubResource("SphereShape3D_4uvbu")
+spring_length = 10.0
+script = ExtResource("2_a7sy8")
+
+[node name="Node3D" type="Node3D" parent="OrbitCamera"]
+
+[node name="CameraSetpoint" type="Node3D" parent="OrbitCamera/Node3D"]
+unique_name_in_owner = true
+script = ExtResource("3_ppqc5")
+camera_parameters = SubResource("Resource_c3s8r")
+
+[node name="OrbitCameraRetargetUpdate" type="Node" parent="OrbitCamera"]
+script = ExtResource("5_85wqi")
+
+[node name="ZoomCamera" type="Node" parent="OrbitCamera"]
+script = ExtResource("6_f4sw2")

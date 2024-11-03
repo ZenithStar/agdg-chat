@@ -1,0 +1,29 @@
+[gd_scene load_steps=8 format=3 uid="uid://bh524dlowrlcc"]
+
+[ext_resource type="Script" path="res://scripts/controller/PlayerController.gd" id="1_x3w31"]
+[ext_resource type="Script" path="res://scripts/controller/PlayerCamera.gd" id="2_xqudl"]
+[ext_resource type="Script" path="res://scripts/controller/HeadingCommand.gd" id="3_bnw67"]
+[ext_resource type="Script" path="res://scripts/controller/JumpCommand.gd" id="4_50ebe"]
+[ext_resource type="Script" path="res://scripts/controller/SprintCommand.gd" id="5_pjbup"]
+[ext_resource type="PackedScene" uid="uid://cbiix6himkki" path="res://prefabs/controllers/ots_movement.tscn" id="7_4nqbl"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_tvgga"]
+
+[node name="PlayerController" type="Node"]
+script = ExtResource("1_x3w31")
+
+[node name="PlayerCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 5, 10)
+attributes = SubResource("CameraAttributesPractical_tvgga")
+script = ExtResource("2_xqudl")
+
+[node name="HeadingCommand" type="Node" parent="."]
+script = ExtResource("3_bnw67")
+
+[node name="JumpCommand" type="Node" parent="."]
+script = ExtResource("4_50ebe")
+
+[node name="SprintCommand" type="Node" parent="."]
+script = ExtResource("5_pjbup")
+
+[node name="OTSMovement" parent="." instance=ExtResource("7_4nqbl")]

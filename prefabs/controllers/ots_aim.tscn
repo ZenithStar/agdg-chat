@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cp7faamu6kkmf"]
+
+[ext_resource type="Script" path="res://scripts/controller/ControlGroup.gd" id="1_cdefb"]
+[ext_resource type="Script" path="res://scripts/controller/CameraSetpoint.gd" id="2_hdkm6"]
+
+[node name="OTSAim" type="Node"]
+script = ExtResource("1_cdefb")
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="CameraSetpoint" type="Node3D" parent="Node3D"]
+unique_name_in_owner = true
+script = ExtResource("2_hdkm6")
+damping_duration = 0.01
