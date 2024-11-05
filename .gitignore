@@ -19,6 +19,6 @@ mono_crash.*.json
 build/
 addons/rivet_sdk
 addons/rivet
-
+.plugged/
 
 *.DS_Store
